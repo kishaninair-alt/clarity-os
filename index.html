@@ -1275,6 +1275,43 @@ let capArtifact = null;
   } catch(e) { capArtifact = null; }
 })();
 
+/* Real database for the publicly hosted copy (GitHub Pages and anywhere
+   else outside claude.ai), since the `artifact` capability above only
+   exists inside a Claude artifact. This key is a publishable key, safe
+   to ship client side; the submissions table only allows anonymous
+   inserts, never reads, so visitors can submit but never see each
+   other's data. Reading the collected data happens from the Supabase
+   dashboard, not from this page. */
+const SUPABASE_URL = 'https://owjhkmkflqgoqdpiohxr.supabase.co';
+const SUPABASE_KEY = 'sb_publishable__1fHuGCaUNOxLKqp3LHMDg_3kPk-Ynj';
+
+async function submitToSupabase(entry){
+  const res = await fetch(SUPABASE_URL + '/rest/v1/submissions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({
+      id: entry.id,
+      respondent_id: entry.respondentId,
+      ts: new Date(entry.ts).toISOString(),
+      total: entry.total,
+      band: entry.band,
+      dims: entry.dims,
+      core_answers: entry.coreAnswers,
+      gc: entry.gc,
+      domain_key: entry.domainKey,
+      approach_style: entry.approachStyle,
+      dq: entry.dq,
+      feedback: entry.feedback
+    })
+  });
+  if(!res.ok){ throw new Error('supabase_'+res.status); }
+}
+
 const feedback = {ease:null, accurate:null, wouldReturn:null, note:''};
 const FEEDBACK_QS = [
   {key:'ease', q:'Was the questionnaire easy to understand?', opts:['Yes','Mostly','Not really']},
@@ -1342,11 +1379,6 @@ async function fetchLog(){
 
 document.getElementById('shareBtn').addEventListener('click', async ()=>{
   const statusEl = document.getElementById('shareStatus');
-  if(!capArtifact){
-    statusEl.className = 'share-status err';
-    statusEl.textContent = "Sharing isn't available in this preview. Try again from the published link.";
-    return;
-  }
   const r = state.report;
   const dims = {}; r.dims.forEach(d=> dims[d.key] = Math.round(d.normalized));
   // Raw 1-5 answers to the 12 CORE items only (q1..q12), needed to ever compute
@@ -1365,27 +1397,44 @@ document.getElementById('shareBtn').addEventListener('click', async ()=>{
 
   statusEl.className = 'share-status pending';
   statusEl.textContent = 'Sending…';
-  let attempts = 0, lastErr = null;
-  while(attempts < 3){
-    attempts++;
-    const current = await fetchLog();
-    const next = current.concat([entry]);
-    try{
-      await capArtifact.publish({'data/log.json': JSON.stringify(next)});
-      statusEl.className = 'share-status ok';
-      statusEl.textContent = 'Sent. Thank you, this genuinely helps.';
-      return;
-    }catch(e){
-      lastErr = e;
-      if(e && e.code === 'conflict'){ continue; } // someone else wrote first, refetch and retry
-      break; // any other error: stop and report
+
+  // Two independent stores: the real database (works on any host, including
+  // this one outside claude.ai), and the claude.ai artifact's own log.json
+  // (only present when this page is the published Claude artifact). A
+  // submission counts as sent if either one accepts it.
+  let dbOk = false;
+  try{
+    await submitToSupabase(entry);
+    dbOk = true;
+  }catch(e){ /* fall through to the artifact path, or report below */ }
+
+  let artifactOk = false, artifactErr = null;
+  if(capArtifact){
+    let attempts = 0;
+    while(attempts < 3){
+      attempts++;
+      try{
+        const current = await fetchLog();
+        const next = current.concat([entry]);
+        await capArtifact.publish({'data/log.json': JSON.stringify(next)});
+        artifactOk = true;
+        break;
+      }catch(e){
+        artifactErr = e;
+        if(e && e.code === 'conflict'){ continue; } // someone else wrote first, refetch and retry
+        break; // any other error: stop and report
+      }
     }
   }
+
+  if(dbOk || artifactOk){
+    statusEl.className = 'share-status ok';
+    statusEl.textContent = 'Sent. Thank you, this genuinely helps.';
+    return;
+  }
   statusEl.className = 'share-status err';
-  if(lastErr && (lastErr.code === 'not_writer' || lastErr.code === 'not_granted')){
+  if(artifactErr && (artifactErr.code === 'not_writer' || artifactErr.code === 'not_granted')){
     statusEl.textContent = "This link is view-only, so sharing isn't enabled here. Ask Kishan for an editable link.";
-  } else if(lastErr && lastErr.code === 'conflict'){
-    statusEl.textContent = "A lot of people are submitting right now. Please try once more.";
   } else {
     statusEl.textContent = "Couldn't send just now. Please try again in a moment.";
   }
