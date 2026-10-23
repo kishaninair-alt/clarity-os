@@ -1,5 +1,30 @@
-<title>Clarity OS</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Manrope:wght@400;500;600;700;800&display=swap">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clarity OS: how serious is your problem, and what next</title>
+<meta name="description" content="A free, three minute problem severity assessment. Name one problem, answer 18 short questions, and get an 8 dimension score with a clear plan for what to do next. Not therapy, not a diagnosis.">
+<meta name="theme-color" content="#F3F4F7">
+<link rel="canonical" href="https://kishaninair-alt.github.io/clarity-os/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Clarity OS">
+<meta property="og:url" content="https://kishaninair-alt.github.io/clarity-os/">
+<meta property="og:title" content="Clarity OS: turn confusion into clear next steps">
+<meta property="og:description" content="Name one problem. Answer 18 short questions. See how serious it really is across 8 dimensions, and leave with a plan. Free, about three minutes.">
+<meta property="og:image" content="https://kishaninair-alt.github.io/clarity-os/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Clarity OS: turn confusion into clear next steps">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Clarity OS: turn confusion into clear next steps">
+<meta name="twitter:description" content="Name one problem. Answer 18 short questions. See how serious it really is across 8 dimensions, and leave with a plan.">
+<meta name="twitter:image" content="https://kishaninair-alt.github.io/clarity-os/og-image.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<script src="analytics.js"></script>
 <style>
   /* Cockle (wordmark/display face), licensed via MyFonts/Monotype, not on a free CDN.
      Waiting on Kishan to supply the licensed webfont file so it can be embedded here as:
@@ -229,6 +254,7 @@
   .score-band{display:inline-flex; align-items:center; gap:7px; margin-top:12px; padding:6px 14px; border-radius:99px; font-size:13.5px; font-weight:700;}
   .score-band .swatch{width:8px; height:8px; border-radius:50%;}
   .score-summary{margin-top:16px; font-size:15.5px; color:var(--ink-soft); line-height:1.6;}
+  .urgent-note{margin-top:14px; text-align:left; background:var(--sev-4-soft); color:var(--ink); border-radius:var(--radius-md); padding:12px 14px; font-size:14.5px; line-height:1.55;}
 
   .legend{display:flex; gap:14px; flex-wrap:wrap; margin:18px 0 6px; font-size:12px; color:var(--ink-muted);}
   .legend-item{display:flex; align-items:center; gap:6px;}
@@ -309,23 +335,32 @@
   .share-status.ok{display:block; background:var(--accent-2-soft); color:var(--accent-2);}
   .share-status.err{display:block; background:var(--sev-5-soft); color:var(--sev-5);}
   .share-status.pending{display:block; background:var(--surface-alt); color:var(--ink-muted);}
-  .admin-stat-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;}
-  .admin-stat{flex:1; min-width:110px; background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius-md); padding:16px; text-align:center; box-shadow:var(--shadow-sm);}
-  .admin-stat .n{font-family:var(--font-display); font-size:28px;}
-  .admin-stat .l{font-size:11.5px; color:var(--ink-muted); font-weight:700; text-transform:uppercase; letter-spacing:.05em; margin-top:2px;}
-  .admin-row{background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius-md); padding:15px 17px; margin-bottom:10px; box-shadow:var(--shadow-sm);}
-  .admin-row-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
-  .admin-row-top .s{font-weight:800; font-size:16px;}
-  .admin-row-top .t{font-size:11.5px; color:var(--ink-muted);}
-  .admin-row .dims{font-size:12px; color:var(--ink-muted); margin-top:6px;}
-  .admin-row .note{font-size:13.5px; color:var(--ink-soft); margin-top:8px; font-style:italic; border-left:2px solid var(--border); padding-left:10px;}
+  .privacy-note ul{margin:8px 0 8px; padding-left:18px;}
+  .privacy-note li{margin:2px 0;}
   .link-plain{background:none; border:none; color:var(--accent-ink); font-size:13.5px; font-weight:700; text-decoration:underline; padding:0; cursor:pointer;}
+  .quick-feedback{background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius-md); padding:18px 18px 4px; box-shadow:var(--shadow-sm);}
+  .quick-feedback .qf-intro{font-size:13px; color:var(--ink-muted); margin-bottom:16px;}
+
+  /* ---------- CRISIS SIGNPOSTING ---------- */
+  .crisis-box{margin-top:18px; text-align:left; background:var(--sev-5-soft); border-radius:var(--radius-md); padding:14px 16px; font-size:14px; color:var(--ink); line-height:1.6;}
+  .crisis-box strong{display:block; margin-bottom:4px;}
+  .crisis-box ul{margin:6px 0 0; padding-left:18px;}
+  .crisis-box a{color:inherit; font-weight:700;}
+  a[href^="tel:"]{white-space:nowrap;}
+  .footnote .crisis-line{margin-top:10px;}
+  .footnote a{color:var(--ink-soft);}
+
+  /* ---------- SITE FOOTER ---------- */
+  .site-footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--border-soft); display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-muted);}
+  .site-footer a{color:var(--ink-muted);}
 
   @media (max-width:420px){
     .hero h1{font-size:33px;}
     .score-num{font-size:60px;}
   }
 </style>
+</head>
+<body>
 
 <div class="ambient-bg" aria-hidden="true"><span></span><span></span><span></span></div>
 
@@ -367,7 +402,10 @@
       <div class="mini-card"><span class="num">03</span><div><div class="t">Get a plan, not a lecture</div><div class="d">A short list of real next actions, one exercise worth doing, and a prompt you can hand straight to an AI assistant.</div></div></div>
     </div>
 
-    <div class="footnote">Clarity OS is a structured self-reflection and problem-planning tool built around an original framework (APSI). It isn't therapy, medical advice, or a diagnosis. If what you're facing involves your safety or someone else's, please also talk to a professional.</div>
+    <div class="footnote">
+      <p>Clarity OS is a structured way to reflect on one problem and plan your next steps, built around an original framework (APSI). It is not therapy, not medical advice and not a diagnosis. If what you're facing involves your safety or someone else's, please also talk to a professional.</p>
+      <p class="crisis-line">In crisis or thinking about harming yourself? Call now. Germany: Telefonseelsorge <a href="tel:08001110111">0800 111 0 111</a> (free, 24/7). India: Tele MANAS <a href="tel:14416">14416</a> (free, 24/7). Anywhere else: <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a> lists free helplines in your country.</p>
+    </div>
   </section>
 
   <!-- QUIZ -->
@@ -400,6 +438,22 @@
       <div class="score-num" id="scoreNum">0</div>
       <div class="score-band" id="scoreBand"></div>
       <p class="score-summary" id="scoreSummary"></p>
+      <p class="urgent-note" id="urgentNote" style="display:none;">Your overall score is low, but you said waiting on this carries real risk. Treat the timing as the priority, even if the rest feels manageable.</p>
+      <div class="crisis-box" id="crisisBox" style="display:none;">
+        <strong>If you are in crisis or thinking about harming yourself, please call someone now.</strong>
+        <ul>
+          <li>Germany: Telefonseelsorge <a href="tel:08001110111">0800 111 0 111</a>, free and open 24/7</li>
+          <li>India: Tele MANAS <a href="tel:14416">14416</a>, free and open 24/7</li>
+          <li>Anywhere else: <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a> lists free helplines in your country</li>
+        </ul>
+        <p style="margin-top:8px;">Clarity OS is not therapy and not a diagnosis.</p>
+      </div>
+    </div>
+
+    <div class="section-label">Quick feedback</div>
+    <div class="quick-feedback">
+      <p class="qf-intro">Three taps help Kishan improve this. Nothing is sent unless you choose to share at the end.</p>
+      <div id="quickFeedback"></div>
     </div>
 
     <div id="feltVsMeasuredWrap"></div>
@@ -449,7 +503,18 @@
   <!-- SHARE / FEEDBACK -->
   <section class="screen" id="screen-share">
     <div class="section-label">Before you go</div>
-    <div class="privacy-note">Kishan is testing Clarity OS with a small group right now. Sharing sends your <strong>score, severity band, and the 8 dimension numbers</strong>, never your exercise notes, which stay on this device only. Totally optional, and you can skip it.</div>
+    <div class="privacy-note">
+      Kishan is testing Clarity OS with a small group right now. Sharing is optional and you can skip it. If you share, this goes to a database Kishan runs on Supabase:
+      <ul>
+        <li>your total score, severity band and the 8 dimension scores</li>
+        <li>your answers (1 to 5) to the 12 scored questions</li>
+        <li>your gut check number, the area of life you picked and your approach style label</li>
+        <li>timing signals: how long your answers took, and whether every answer was the same</li>
+        <li>a random ID kept in this browser, so a retake can be linked to your earlier result</li>
+        <li>your three feedback answers and anything you type in the note below</li>
+      </ul>
+      Never sent: your name or email (we never ask), your answers to the two follow up questions about that area, and your exercise notes, which stay on this device only. Please keep the note free of names or other personal details. More in the <a href="datenschutz.html">privacy policy</a>.
+    </div>
 
     <div id="feedbackForm"></div>
 
@@ -461,14 +526,11 @@
     <p style="margin-top:22px;"><button class="link-plain" id="backFromShare">← Back</button></p>
   </section>
 
-  <!-- ADMIN (results viewer, reached via ?results=1) -->
-  <section class="screen" id="screen-admin">
-    <div class="section-label">Test results, you only</div>
-    <p class="meta-line" style="margin-bottom:18px;">This view reads whatever testers have chosen to share. Anyone with this artifact's link could technically find this data by viewing page source; nothing sensitive is stored here, only scores and short comments people opted to send.</p>
-    <div class="admin-stat-row" id="adminStats"></div>
-    <div id="adminList"></div>
-    <button class="btn btn-ghost" id="adminBack" style="margin-top:10px;">← Back to Clarity OS</button>
-  </section>
+  <footer class="site-footer">
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz (privacy)</a>
+    <span>Not therapy, not a diagnosis.</span>
+  </footer>
 
 </div>
 
@@ -508,7 +570,7 @@ const DOMAINS = [
   {key:'health',          label:'Health & Body'},
   {key:'money',          label:'Money & Security'},
   {key:'family',          label:'Family'},
-  {key:'identity',        label:'Self-Worth & Identity'},
+  {key:'identity',        label:'Self Worth & Identity'},
   {key:'direction',       label:'Life Direction & Purpose'},
   {key:'other',           label:'Something Else'},
 ];
@@ -524,7 +586,7 @@ const QUESTIONS = {
   q2:{dim:'d1', text:"Are there specific things that set it off?", opts:[
     "Nothing specific: it shows up on its own",
     "One or two specific things set it off",
-    "A handful of situations (maybe 3–5) trigger it",
+    "A handful of situations (maybe 3 to 5) trigger it",
     "Quite a few things (6 or more) seem to trigger it",
     "Honestly, almost anything can set it off"]},
   q3:{dim:'d2', text:"When it hits, how much does it affect you emotionally?", opts:[
@@ -542,8 +604,8 @@ const QUESTIONS = {
   q5:{dim:'d3', text:"How long has this problem been going on?", opts:[
     "Brand new: this just started",
     "A few weeks now",
-    "1–6 months",
-    "6–12 months",
+    "1 to 6 months",
+    "6 to 12 months",
     "Over a year: this has been going on a long time"]},
   q6:{dim:'d4', text:"How many parts of your life does it touch?", opts:[
     "Just one part of my life",
@@ -561,8 +623,8 @@ const QUESTIONS = {
     "Basically none",
     "Up to a few hours",
     "Around half a day",
-    "A significant chunk of my week (15–20 hrs)",
-    "More than 20 hours, practically a part-time job"]},
+    "A significant chunk of my week (15 to 20 hrs)",
+    "More than 20 hours, practically a second job on the side"]},
   q9:{dim:'d5', text:"Roughly how much would it cost you, financially?", opts:[
     "Free, or close to it",
     "A small cost, nothing to worry about",
@@ -653,7 +715,7 @@ const DOMAIN_MODULES = {
     insight:{
       low:"The effects here seem more mental/emotional than physical right now, and that's useful to know. It means the lever to pull is probably how you're relating to this problem, not a medical issue underneath it.",
       mid:"This is starting to have real, if moderate, physical effects on how you function day to day. That's worth tracking deliberately rather than writing off as 'just stress,' since a small physical pattern now is easier to interrupt than an entrenched one later.",
-      high:"This is affecting your body and daily functioning in ways that matter, and it sits outside what a self-guided tool like this one can fully address. If you haven't already, it's worth bringing this to a doctor or relevant professional, not instead of working through it here, but alongside it."
+      high:"This is affecting your body and daily functioning in ways that matter, and it sits outside what a tool you use on your own, like this one, can fully address. If you haven't already, it's worth bringing this to a doctor or relevant professional, not instead of working through it here, but alongside it."
     }
   },
   money:{
@@ -663,7 +725,7 @@ const DOMAIN_MODULES = {
       "A pattern of spending or income that isn't adding up over time",
       "A real shortfall I'm actively managing month to month",
       "A situation I'd describe as a genuine financial crisis"]},
-    dm2:{text:"How much does this shape your day-to-day decisions?", opts:[
+    dm2:{text:"How much does this shape the decisions you make each day?", opts:[
       "Barely at all, it's in the background",
       "I think about it when relevant purchases come up",
       "It influences a fair number of daily decisions",
@@ -672,7 +734,7 @@ const DOMAIN_MODULES = {
     insight:{
       low:"Right now this looks more like anxiety about money than an acute shortfall, which is genuinely useful to separate, because the fix for financial worry (clarity, a plan, maybe a second opinion) is different from the fix for an actual gap.",
       mid:"There's a real, identifiable financial pattern here that's starting to shape your decisions day to day. This is usually the stage where getting specific, actual numbers rather than a general sense of unease, pays off the most.",
-      high:"This is actively dictating a lot of your day-to-day decisions, which is exhausting in a specific way, since financial stress has a well-documented tendency to crowd out mental bandwidth for everything else. Getting even one concrete number clarified (what you actually owe, earn, or need) is often the highest-leverage first move."
+      high:"This is actively dictating a lot of your daily decisions, which is exhausting in a specific way, since financial stress is well known to crowd out mental bandwidth for everything else. Getting even one concrete number clarified (what you actually owe, earn, or need) is often the first move with the most leverage."
     }
   },
   family:{
@@ -710,7 +772,7 @@ const DOMAIN_MODULES = {
     insight:{
       low:"This is staying fairly situational, it isn't bleeding into how you see yourself overall, which matters, because problems that stay 'things I'm dealing with' are generally much easier to resolve than problems that become 'who I am.'",
       mid:"This has started to blur from 'something I'm dealing with' into 'something that says something about me,' which is a meaningful shift. Worth deliberately separating the problem from your identity before it settles in further.",
-      high:"This has become tangled up with your sense of self, often over a long stretch of time. That's one of the harder patterns to shift precisely because the problem and the self-concept reinforce each other, which is exactly why naming that distinction explicitly, probably with real support, tends to be the actual unlock here, more than any single action step."
+      high:"This has become tangled up with your sense of self, often over a long stretch of time. That's one of the harder patterns to shift precisely because the problem and the way you see yourself reinforce each other, which is exactly why naming that distinction explicitly, probably with real support, tends to be the actual unlock here, more than any single action step."
     }
   },
   direction:{
@@ -728,8 +790,8 @@ const DOMAIN_MODULES = {
       "As long as I can remember"]},
     insight:{
       low:"This reads more like a specific open question than a full loss of direction, which is good news, because specific questions have specific next steps, even if they're not obvious yet.",
-      mid:"There's a real sense that your current path may not be right, without a clear alternative yet. That in-between place is uncomfortable, but it's also usually productive. It tends to precede clarity rather than mean its absence.",
-      high:"This is a deeper, longer-running sense of direction loss, which can't be solved with a single decision the way a smaller fork-in-the-road problem can. This usually benefits from slower, values-first exploration, and sometimes from talking it through with someone outside your own head, like a coach, mentor, or therapist."
+      mid:"There's a real sense that your current path may not be right, without a clear alternative yet. That place in between is uncomfortable, but it's also usually productive. It tends to precede clarity rather than mean its absence.",
+      high:"This is a deeper sense of lost direction that has been running for a long time, which can't be solved with a single decision the way a smaller fork in the road can. This usually benefits from slower exploration that starts with your values, and sometimes from talking it through with someone outside your own head, like a coach, mentor, or therapist."
     }
   },
   other:{
@@ -773,10 +835,10 @@ const ORIENTATION_Q = {
 };
 
 const STYLE_CONTENT = {
-  structured:{label:"Structured planner", note:"You tend to meet problems with a plan. The exercises below lean into that, using step-based, written-out formats rather than loose, open-ended ones."},
+  structured:{label:"Structured planner", note:"You tend to meet problems with a plan. The exercises below lean into that, using formats that go step by step and are written out, rather than loose and open ones."},
   avoidant:{label:"Avoidant-leaning", note:"Your instinct is to put this off until you have to deal with it, which is extremely common, not a character flaw. The exercises below deliberately start smaller than usual, so starting doesn't require a huge push of willpower."},
-  reactive:{label:"Reactive under pressure", note:"You tend to handle things in the moment, often close to the wire. The exercises below lean toward quick, low-friction formats you can actually use in a reactive moment, rather than ones that assume calm planning time you may not feel like you have."},
-  balanced:{label:"Context-dependent", note:"How you handle this seems to depend on the day and your energy levels, which is realistic. The exercises below are flexible enough to use whether you're in a high-energy or low-energy state."}
+  reactive:{label:"Reactive under pressure", note:"You tend to handle things in the moment, often close to the wire. The exercises below lean toward quick, easy formats you can actually use in a reactive moment, rather than ones that assume calm planning time you may not feel like you have."},
+  balanced:{label:"Depends on the day", note:"How you handle this seems to depend on the day and your energy levels, which is realistic. The exercises below are flexible enough to use whether your energy is high or low."}
 };
 
 /* Fixed flow order. 'dm1'/'dm2' content is resolved per-domain and
@@ -865,7 +927,7 @@ const CONTENT = {
     risk:{low:"Low frequency doesn't mean zero risk, it's worth noting if the triggers start showing up more often.", mid:"Left alone, frequent problems tend to become 'just how things are.' You stop consciously noticing them, but your baseline stress stays elevated.", high:"Left alone, frequent problems tend to become 'just how things are.' You stop consciously noticing them, but your baseline stress stays elevated."},
     strength:"You're not dealing with a constant drumbeat here, which gives you room to address this deliberately rather than in crisis mode.",
     actions:["Track your top 3 recurring triggers for a week","Notice patterns in timing, environment, people, or events","Build a ‘pause before reacting’ habit for the moments you can predict","Reduce your exposure to the triggers you actually control"],
-    exercise:{name:"Trigger Map", desc:"A 5-minute log to fill out right after the problem shows up, while it's still fresh.", fields:["Trigger","What happened?","What did I think?","What did I feel?","What did I do?","What could I try next time?"]},
+    exercise:{name:"Trigger Map", desc:"A five minute log to fill out right after the problem shows up, while it's still fresh.", fields:["Trigger","What happened?","What did I think?","What did I feel?","What did I do?","What could I try next time?"]},
     tool:{title:"Spot My Patterns", prompt:"Here's a description of a recurring problem I'm facing: [describe your problem]. Help me identify likely triggers, patterns in when it happens, and one small change I could test this week to reduce how often it comes up."}
   },
   d2:{
@@ -874,10 +936,10 @@ const CONTENT = {
       mid:"This isn't background noise. When it hits, you notice, emotionally, and in how well you can focus on anything else for a while.",
       high:"This isn't a mild annoyance. When it hits, it hits hard enough to genuinely disrupt your ability to think clearly or function the way you normally would. That's not a character flaw; that's just what real intensity does to a nervous system."
     },
-    why:"Intensity determines how much of your day-to-day capacity gets pulled toward managing this, versus everything else you're trying to do.",
-    risk:{low:"Keep an eye on whether the intensity creeps up over time, especially if frequency increases too.", mid:"Left unmanaged, intense problems tend to make people avoid them entirely, which feels like relief short-term but usually lets them grow.", high:"Left unmanaged, intense problems tend to make people avoid them entirely, which feels like relief short-term but usually lets them grow."},
+    why:"Intensity determines how much of your daily capacity gets pulled toward managing this, versus everything else you're trying to do.",
+    risk:{low:"Keep an eye on whether the intensity creeps up over time, especially if frequency increases too.", mid:"Left unmanaged, intense problems tend to make people avoid them entirely, which feels like relief in the short run but usually lets them grow.", high:"Left unmanaged, intense problems tend to make people avoid them entirely, which feels like relief in the short run but usually lets them grow."},
     strength:"The fact that this isn't overwhelming you gives you real room to think clearly about it, rather than just reacting.",
-    actions:["Try a 2-minute reset before responding to it","Name the emotion out loud or in writing before problem-solving","Take a short walk or do a brief breathing exercise when it spikes","Separate the facts of the situation from your interpretation of them"],
+    actions:["Take a two minute reset before responding to it","Name the emotion out loud or in writing before you try to solve anything","Take a short walk or do a brief breathing exercise when it spikes","Separate the facts of the situation from your interpretation of them"],
     exercise:{name:"Name It Before Solving It", desc:"A short prompt to work through the moment intensity spikes, before you try to fix anything.", fields:["What am I feeling?","What triggered it?","What am I afraid will happen?","What part of this is fact?","What part is assumption?"]},
     tool:{title:"Stop Overthinking", prompt:"Help me stop overthinking this situation: [describe your situation]. Separate the facts from my assumptions, tell me what's actually in my control, and give me one clear next step."}
   },
@@ -901,7 +963,7 @@ const CONTENT = {
       high:"This isn't staying in its lane. It's touching multiple areas of your life at once, which is exhausting in a specific way, because there's no single place you can go to get a break from it."
     },
     why:"Scope tells you whether you're dealing with one problem, or one problem that's started generating several smaller ones.",
-    risk:{low:"Keep your current boundaries in place so it stays contained.", mid:"Unchecked, wide-scope problems tend to keep spreading into whatever area is currently your weakest point of resistance.", high:"Unchecked, wide-scope problems tend to keep spreading into whatever area is currently your weakest point of resistance."},
+    risk:{low:"Keep your current boundaries in place so it stays contained.", mid:"Unchecked, problems with a wide scope tend to keep spreading into whatever area is currently your weakest point of resistance.", high:"Unchecked, problems with a wide scope tend to keep spreading into whatever area is currently your weakest point of resistance."},
     strength:"Because this is still fairly contained, you likely have other areas of life (relationships, routines, work) that are stable enough to support you while you deal with this.",
     actions:["Map which life areas are actually affected, and how much","Pick the most changeable area to focus on first","Set a boundary to stop it spreading into an area that's currently fine","Protect one part of your routine as ‘off limits’ to this problem"],
     exercise:{name:"Life Impact Map", desc:"A quick scan across the areas of your life to see where this problem actually shows up.", fields:["Health","Relationships","Work","Finances","Daily routines","Mental space"]},
@@ -911,14 +973,14 @@ const CONTENT = {
     tiers:{
       low:"Solving this won't demand much from you in time or money; the barrier here isn't resources, it's probably just getting started.",
       mid:"This is going to take a real, noticeable investment of time or money to properly address, not overwhelming, but not trivial either.",
-      high:"This is a resource-heavy problem: the time or money it would take to properly address it is substantial. That alone can make a problem feel stuck, even when you know exactly what needs to happen."
+      high:"This problem is heavy on resources: the time or money it would take to properly address it is substantial. That alone can make a problem feel stuck, even when you know exactly what needs to happen."
     },
     why:"This is often the single biggest reason a clear plan doesn't turn into action, not lack of clarity, but a resource gap that hasn't been named out loud.",
     risk:{low:"Low resource needs mean this is a good candidate to just start on now.", mid:"When resource requirements go unacknowledged, plans quietly stall, not from a lack of intent, but because nobody budgeted for what it actually takes.", high:"When resource requirements go unacknowledged, plans quietly stall, not from a lack of intent, but because nobody budgeted for what it actually takes."},
     strength:"Because this doesn't require major resources, momentum is genuinely within reach; you don't need to wait for the ‘right time’ to start.",
-    actions:["Estimate the real time cost per week, honestly","Estimate the real financial cost, even roughly","Identify what you already have vs. what you'd need to get","Break the solution into smaller, lower-cost stages","Look for free or lower-cost alternatives before assuming you need the expensive option"],
+    actions:["Estimate the real time cost per week, honestly","Estimate the real financial cost, even roughly","Identify what you already have vs. what you'd need to get","Break the solution into smaller stages that cost less","Look for free or cheaper alternatives before assuming you need the expensive option"],
     exercise:{name:"Resource Reality Check", desc:"Get specific about what this problem actually requires, instead of guessing.", fields:["What do I need?","Do I already have it?","Can I access it?","What would it cost?","How much time would it take?","Is there a cheaper alternative?"]},
-    tool:{title:"Audit What This Actually Costs", prompt:"I need to solve this problem: [describe it]. Help me realistically estimate the time and money it would take, break it into smaller stages, and suggest lower-cost or free alternatives where possible."}
+    tool:{title:"Audit What This Actually Costs", prompt:"I need to solve this problem: [describe it]. Help me realistically estimate the time and money it would take, break it into smaller stages, and suggest cheaper or free alternatives where possible."}
   },
   d6:{
     tiers:{
@@ -931,7 +993,7 @@ const CONTENT = {
     strength:"Low urgency gives you the rare luxury of being deliberate instead of reactive.",
     actions:["Get specific about what happens if you wait 1 week, 1 month, 3 months, and a year","Set an actual deadline, even an imperfect one","Identify the smallest action that reduces the immediate risk","Prioritize containing the damage before optimizing the solution"],
     exercise:{name:"Risk Ladder", desc:"Make the cost of waiting concrete instead of abstract.", fields:["What happens if I do nothing for 1 week?","...for 1 month?","...for 3 months?","...for 1 year?"]},
-    tool:{title:"Reality-Check the Cost of Waiting", prompt:"I'm deciding whether to act now or later on this: [describe your problem]. Walk me through what realistically happens if I wait a week, a month, three months, and a year, and tell me what the smallest immediate action would be."}
+    tool:{title:"Reality Check the Cost of Waiting", prompt:"I'm deciding whether to act now or later on this: [describe your problem]. Walk me through what realistically happens if I wait a week, a month, three months, and a year, and tell me what the smallest immediate action would be."}
   },
   d7:{
     tiers:{
@@ -953,7 +1015,7 @@ const CONTENT = {
       high:"Right now, you're not sure you have what it takes to solve this, and that uncertainty is doing real work here. Often it's not the problem itself but the doubt about handling it that makes something feel stuck."
     },
     why:"Confidence isn't just a feeling; it functions as a resource, the same way time or money does. Low confidence makes people delay starting even on solvable problems.",
-    risk:{low:"Keep using that confidence; it's an asset worth protecting.", mid:"Low confidence left unaddressed tends to become self-fulfilling; it makes people avoid the small actions that would actually build the evidence they're looking for.", high:"Low confidence left unaddressed tends to become self-fulfilling; it makes people avoid the small actions that would actually build the evidence they're looking for."},
+    risk:{low:"Keep using that confidence; it's an asset worth protecting.", mid:"Low confidence left unaddressed tends to fulfil itself; it makes people avoid the small actions that would actually build the evidence they're looking for.", high:"Low confidence left unaddressed tends to fulfil itself; it makes people avoid the small actions that would actually build the evidence they're looking for."},
     strength:"This confidence is real leverage. Use it to move first on this problem while momentum is on your side.",
     actions:["List a difficult thing you've solved before, and what actually helped","Identify what resources you're missing, specifically","Start with the smallest possible win, on purpose","Ask for help somewhere it's actually appropriate to"],
     exercise:{name:"Evidence of Capability", desc:"Build the case that you're more equipped than it currently feels.", fields:["What's a difficult thing I've solved before?","What skills or people helped me then?","Who could help me now?","What's the smallest step I already know how to take?"]},
@@ -978,7 +1040,7 @@ const BANDS = [
 ];
 
 const PATTERNS = [
-  {test:n=>n.d2>=65&&n.d1>=65, text:"Intensity and frequency are both running high together: this isn't an occasional bad day, it's a recurring, weight-bearing part of your life right now. That combination usually calls for stabilizing things before anything else.", system:'containment', pr:1},
+  {test:n=>n.d2>=65&&n.d1>=65, text:"Intensity and frequency are both running high together: this isn't an occasional bad day, it's a recurring part of your life that carries real weight right now. That combination usually calls for stabilizing things before anything else.", system:'containment', pr:1},
   {test:n=>n.d6>=65, text:"There's real time pressure here. Whatever else you prioritize, don't let this be the thing you keep circling back to ‘later.’", system:'containment', pr:2},
   {test:n=>n.d7>=65, text:"This problem is highly interconnected with other things going on. A single isolated fix is unlikely to hold; it's worth mapping the connections before committing to one solution.", system:'problemmap', pr:3},
   {test:n=>n.d3>=65&&n.d8>=55, text:"This has been going on for a while, and that duration has likely chipped away at your confidence that you can fix it. Worth naming that explicitly: the doubt is a side effect of time, not proof the problem is unsolvable.", system:'momentum', pr:4},
@@ -1004,11 +1066,17 @@ function computeReport(answers){
   const total = Math.round(dims.reduce((s,d)=>s+d.contribution,0));
   const band = BANDS.find(b=>total<=b.max);
   const nmap = {}; dims.forEach(d=>nmap[d.key]=d.normalized);
-  const patterns = PATTERNS.filter(p=>p.test(nmap,total)).sort((a,b)=>a.pr-b.pr).slice(0,3);
+  /* Non compensatory urgency override. The APSI total is a weighted average,
+     so one high risk answer (q10) can be hidden by low answers elsewhere. The
+     total, weights and bands stay as documented; urgentFlag only changes what
+     the report says: drop the 'not severe' pattern (pr 8), lead with
+     urgency, and use Containment Mode. */
+  const urgentFlag = answers.q10 >= 4;
+  const patterns = PATTERNS.filter(p=>p.test(nmap,total) && !(urgentFlag && p.pr===8)).sort((a,b)=>a.pr-b.pr).slice(0,3);
   const priority = dims.slice().sort((a,b)=>b.contribution-a.contribution).filter(d=>d.normalized>=45).slice(0,3);
   const priorityFinal = priority.length ? priority : dims.slice().sort((a,b)=>b.contribution-a.contribution).slice(0,2);
-  const systemKey = patterns[0] ? patterns[0].system : 'clarity';
-  return {dims, total, band, patterns, priority:priorityFinal, systemKey};
+  const systemKey = urgentFlag ? 'containment' : (patterns[0] ? patterns[0].system : 'clarity');
+  return {dims, total, band, patterns, priority:priorityFinal, systemKey, urgentFlag};
 }
 
 /* =========================================================
@@ -1026,6 +1094,8 @@ function showScreen(name){
 /* ---- HOME ---- */
 document.getElementById('startBtn').addEventListener('click', ()=>{
   state.qi = 0; state.answers = {};
+  resetFeedback();
+  track('assessment-started', 'Assessment started');
   renderQuestion();
   showScreen('quiz');
 });
@@ -1106,6 +1176,7 @@ function finishQuiz(){
     saveProgress();
     renderResults();
     showScreen('results');
+    track('results-reached', 'Results reached');
   }, 2400);
 }
 
@@ -1114,10 +1185,17 @@ function renderResults(){
   const r = state.report;
   document.getElementById('scoreNum').textContent = r.total;
   const bandEl = document.getElementById('scoreBand');
-  bandEl.innerHTML = '<span class="swatch" style="background:var(--'+r.band.key+')"></span>'+r.band.label+' severity';
+  // Re-derive the band from the score so a saved (or edited) localStorage
+  // report can never inject markup or a stale band through innerHTML.
+  r.band = BANDS.find(b=>r.total<=b.max) || BANDS[0];
+  bandEl.innerHTML = '<span class="swatch" style="background:var(--'+r.band.key+')"></span>'+esc(r.band.label)+' severity';
   bandEl.style.background = 'var(--'+r.band.key+'-soft)';
   bandEl.style.color = 'var(--'+r.band.key+')';
   document.getElementById('scoreSummary').textContent = r.band.summary;
+  // Saved reports from before urgentFlag existed have no flag: treat as false.
+  document.getElementById('urgentNote').style.display = (r.urgentFlag===true && (r.band.key==='sev-1' || r.band.key==='sev-2')) ? 'block' : 'none';
+  document.getElementById('crisisBox').style.display = r.band.key==='sev-5' ? 'block' : 'none';
+  renderQuickFeedback();
 
   if(r.gc!=null){
     const diff = r.gc - r.total;
@@ -1137,7 +1215,7 @@ function renderResults(){
 
   const dm = DOMAIN_MODULES[r.domainKey];
   document.getElementById('domainInsightWrap').innerHTML = dm ?
-    '<div class="insight-card"><div class="insight-label">About your '+r.domainLabel+' problem</div><p>'+dm.insight[r.domainTier]+'</p></div>' : '';
+    '<div class="insight-card"><div class="insight-label">About your '+esc(r.domainLabel)+' problem</div><p>'+esc(dm.insight[r.domainTier])+'</p></div>' : '';
 
   document.getElementById('chartLegend').innerHTML = BANDS.map(b=>
     '<span class="legend-item"><span class="sw" style="background:var(--'+b.key+')"></span>'+b.label+'</span>').join('');
@@ -1212,7 +1290,7 @@ function renderPlan(){
 
   const generalTools = [
     {title:"Plan My Day", prompt:"Act as my daily planner. Based on this problem: [describe your problem], give me 3 realistic tasks I should complete today that would actually move it forward."},
-    {title:"Reality Check", prompt:"Act as my problem-solving coach. Break this problem into 3 simple steps: [describe your problem]. Then give me one action I can take today."}
+    {title:"Reality Check", prompt:"Act as my coach for solving problems. Break this problem into 3 simple steps: [describe your problem]. Then give me one action I can take today."}
   ];
   const toolCards = r.priority.map(d=>CONTENT[d.key].tool).concat(generalTools);
   document.getElementById('toolWrap').innerHTML = toolCards.map((t,i)=>
@@ -1247,41 +1325,29 @@ document.getElementById('restartBtn').addEventListener('click', ()=>{
 });
 
 /* =========================================================
-   5. SHARE WITH KISHAN (opt-in, capability-backed) + ADMIN VIEW
+   5. SHARE WITH KISHAN (opt in)
    ---------------------------------------------------------
    Only derived, numeric/categorical data ever leaves the device: the
-   score/band/dimensions, the raw 1-5 answers to the 12 CORE multiple-
-   choice items only (needed to ever compute item-level reliability;
+   score/band/dimensions, the raw 1 to 5 answers to the 12 CORE multiple
+   choice items only (needed to ever compute item level reliability;
    the aggregated dimension scores can't be un-combined later), the
-   gut-check number, which domain was picked, the approach-style label,
-   a short optional feedback note, an anonymous per-browser respondentId
-   (lets repeat submissions from the same person be paired for test-
-   retest analysis, no name/email, ever), and a data-quality flag
-   (dq: straight-lining + answer-speed) used only to exclude low-quality
-   responses before computing any statistics. The domain/orientation
-   module answers (dm1/dm2/or1/or2), any exercise textarea answers
-   (personal reflections), and the free-text problem description are
-   NEVER included here; they stay in this browser's localStorage only.
-   Sharing uses the `artifact` capability's files-publish form, so the
-   page itself stays fixed and only data/log.json changes. See the
-   "Accuracy & Validation Plan" doc for why each field exists.
+   gut check number, which domain was picked, the approach style label,
+   the feedback chips and optional note, an anonymous per browser
+   respondentId (lets repeat submissions from the same person be paired
+   for test retest analysis, no name/email, ever), and a data quality
+   flag (dq: straight lining + answer speed) used only to exclude low
+   quality responses before computing any statistics. The domain module
+   answers (dm1/dm2), the raw orientation answers (or1/or2) and any
+   exercise textarea answers (personal reflections) are NEVER included
+   here; they stay in this browser's localStorage only. If this list
+   changes, update the .privacy-note on the share screen and
+   datenschutz.html in the same commit.
    ========================================================= */
-let capArtifact = null;
-(async () => {
-  try {
-    if (window.claude && typeof window.claude.use === 'function') {
-      capArtifact = await window.claude.use('artifact');
-    }
-  } catch(e) { capArtifact = null; }
-})();
 
-/* Real database for the publicly hosted copy (GitHub Pages and anywhere
-   else outside claude.ai), since the `artifact` capability above only
-   exists inside a Claude artifact. This key is a publishable key, safe
-   to ship client side; the submissions table only allows anonymous
-   inserts, never reads, so visitors can submit but never see each
-   other's data. Reading the collected data happens from the Supabase
-   dashboard, not from this page. */
+/* This key is a publishable key, safe to ship client side; the
+   submissions table only allows anonymous inserts, never reads, so
+   visitors can submit but never see each other's data. Reading the
+   collected data happens from the Supabase dashboard, not from this page. */
 const SUPABASE_URL = 'https://owjhkmkflqgoqdpiohxr.supabase.co';
 const SUPABASE_KEY = 'sb_publishable__1fHuGCaUNOxLKqp3LHMDg_3kPk-Ynj';
 
@@ -1318,17 +1384,20 @@ const FEEDBACK_QS = [
   {key:'accurate', q:'Did the results feel accurate to your actual problem?', opts:['Yes','Somewhat','Not really']},
   {key:'wouldReturn', q:'Would you use this again for a different problem?', opts:['Yes','Maybe','No']},
 ];
+function resetFeedback(){
+  feedback.ease=null; feedback.accurate=null; feedback.wouldReturn=null; feedback.note='';
+}
 
-function renderFeedbackForm(){
-  const wrap = document.getElementById('feedbackForm');
+/* The three chip questions sit right under the score card, while the
+   result is fresh. Answers are held in `feedback` and only leave the
+   device if the person presses Share at the end. */
+function renderQuickFeedback(){
+  const wrap = document.getElementById('quickFeedback');
   wrap.innerHTML = FEEDBACK_QS.map(fq =>
-    '<div class="feedback-q"><label>'+fq.q+'</label><div class="chip-group" data-key="'+fq.key+'">'+
-      fq.opts.map(o=>'<button type="button" class="chip" data-val="'+o+'">'+o+'</button>').join('')+
+    '<div class="feedback-q"><label>'+esc(fq.q)+'</label><div class="chip-group" data-key="'+fq.key+'">'+
+      fq.opts.map(o=>'<button type="button" class="chip'+(feedback[fq.key]===o?' selected':'')+'" data-val="'+esc(o)+'">'+esc(o)+'</button>').join('')+
     '</div></div>'
-  ).join('') +
-  '<div class="feedback-q"><label>Anything that confused you, or stood out? (optional)</label>'+
-  '<textarea id="feedbackNote" rows="3" placeholder="Type here…" style="width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-family:inherit;font-size:14px;background:var(--surface-alt);color:var(--ink);"></textarea></div>';
-
+  ).join('');
   wrap.querySelectorAll('.chip-group').forEach(g=>{
     g.querySelectorAll('.chip').forEach(chip=>{
       chip.addEventListener('click', ()=>{
@@ -1338,12 +1407,21 @@ function renderFeedbackForm(){
       });
     });
   });
-  document.getElementById('feedbackNote').addEventListener('input', e=>{ feedback.note = e.target.value; });
+}
+
+function renderFeedbackForm(){
+  const wrap = document.getElementById('feedbackForm');
+  wrap.innerHTML =
+  '<div class="feedback-q"><label for="feedbackNote">Anything that confused you, or stood out? (optional)</label>'+
+  '<textarea id="feedbackNote" rows="3" placeholder="Type here…" style="width:100%;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-family:inherit;font-size:14px;background:var(--surface-alt);color:var(--ink);"></textarea></div>';
+  const noteEl = document.getElementById('feedbackNote');
+  noteEl.value = feedback.note;
+  noteEl.addEventListener('input', e=>{ feedback.note = e.target.value; });
 }
 
 document.getElementById('goShare').addEventListener('click', ()=>{
-  feedback.ease=null; feedback.accurate=null; feedback.wouldReturn=null; feedback.note='';
   renderFeedbackForm();
+  document.getElementById('shareBtn').disabled = false;
   document.getElementById('shareStatus').className = 'share-status';
   document.getElementById('shareStatus').textContent = '';
   showScreen('share');
@@ -1358,33 +1436,25 @@ document.getElementById('skipShareBtn').addEventListener('click', ()=>{
 function uid(){
   try { return crypto.randomUUID(); } catch(e){ return 'r'+Math.random().toString(36).slice(2)+Date.now(); }
 }
-/* Persistent, anonymous, per-browser id (not tied to any personal info),
-   lets us pair someone's repeat submissions for test-retest reliability
+/* Persistent, anonymous, per browser id (not tied to any personal info),
+   lets us pair someone's repeat submissions for test retest reliability
    later, without ever asking for a name or email. Stored the same way as
-   other local-only convenience fields (see saveField/loadField). */
+   other local only convenience fields (see saveField/loadField). */
 function respondentId(){
   let r = loadField('respondentId');
   if(!r){ r = uid(); saveField('respondentId', r); }
   return r;
 }
 
-async function fetchLog(){
-  try{
-    const res = await fetch('data/log.json', {cache:'no-store'});
-    if(!res.ok) return [];
-    const data = await res.json();
-    return Array.isArray(data) ? data : [];
-  }catch(e){ return []; }
-}
-
 document.getElementById('shareBtn').addEventListener('click', async ()=>{
   const statusEl = document.getElementById('shareStatus');
+  const shareBtn = document.getElementById('shareBtn');
   const r = state.report;
   const dims = {}; r.dims.forEach(d=> dims[d.key] = Math.round(d.normalized));
-  // Raw 1-5 answers to the 12 CORE items only (q1..q12), needed to ever compute
-  // Cronbach's alpha on the 2-item dimensions later; the aggregated `dims` scores
+  // Raw 1 to 5 answers to the 12 CORE items only (q1..q12), needed to ever compute
+  // Cronbach's alpha on the 2 item dimensions later; the aggregated `dims` scores
   // above can't be un-combined back into their source items. Domain/orientation/
-  // gut-check answers are already captured individually via gc/domainKey/approachStyle.
+  // gut check answers are already captured individually via gc/domainKey/approachStyle.
   const coreAnswers = {};
   ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10','q11','q12'].forEach(q=> coreAnswers[q]=state.answers[q]);
   const entry = {
@@ -1397,99 +1467,28 @@ document.getElementById('shareBtn').addEventListener('click', async ()=>{
 
   statusEl.className = 'share-status pending';
   statusEl.textContent = 'Sending…';
+  shareBtn.disabled = true;
 
-  // Two independent stores: the real database (works on any host, including
-  // this one outside claude.ai), and the claude.ai artifact's own log.json
-  // (only present when this page is the published Claude artifact). A
-  // submission counts as sent if either one accepts it.
-  let dbOk = false;
   try{
     await submitToSupabase(entry);
-    dbOk = true;
-  }catch(e){ /* fall through to the artifact path, or report below */ }
-
-  let artifactOk = false, artifactErr = null;
-  if(capArtifact){
-    let attempts = 0;
-    while(attempts < 3){
-      attempts++;
-      try{
-        const current = await fetchLog();
-        const next = current.concat([entry]);
-        await capArtifact.publish({'data/log.json': JSON.stringify(next)});
-        artifactOk = true;
-        break;
-      }catch(e){
-        artifactErr = e;
-        if(e && e.code === 'conflict'){ continue; } // someone else wrote first, refetch and retry
-        break; // any other error: stop and report
-      }
-    }
-  }
-
-  if(dbOk || artifactOk){
     statusEl.className = 'share-status ok';
     statusEl.textContent = 'Sent. Thank you, this genuinely helps.';
-    return;
-  }
-  statusEl.className = 'share-status err';
-  if(artifactErr && (artifactErr.code === 'not_writer' || artifactErr.code === 'not_granted')){
-    statusEl.textContent = "This link is view-only, so sharing isn't enabled here. Ask Kishan for an editable link.";
-  } else {
+    track('share-submitted', 'Share submitted');
+  }catch(e){
+    shareBtn.disabled = false;
+    statusEl.className = 'share-status err';
     statusEl.textContent = "Couldn't send just now. Please try again in a moment.";
   }
 });
 
-function renderAdmin(log){
-  const statsEl = document.getElementById('adminStats');
-  const listEl = document.getElementById('adminList');
-  if(!log.length){
-    statsEl.innerHTML = '';
-    listEl.innerHTML = '<div class="pattern-card"><p>No shared results yet. Once testers use the ‘Share with Kishan’ option, they\'ll show up here.</p></div>';
-    return;
-  }
-  const avg = Math.round(log.reduce((s,e)=>s+e.total,0)/log.length);
-  const bandCounts = {};
-  log.forEach(e=> bandCounts[e.band] = (bandCounts[e.band]||0)+1);
-  statsEl.innerHTML =
-    '<div class="admin-stat"><div class="n">'+log.length+'</div><div class="l">Responses</div></div>'+
-    '<div class="admin-stat"><div class="n">'+avg+'</div><div class="l">Avg score</div></div>'+
-    '<div class="admin-stat"><div class="n">'+Object.keys(bandCounts).length+'</div><div class="l">Bands seen</div></div>';
-  listEl.innerHTML = log.slice().reverse().map(e=>{
-    const date = new Date(e.ts);
-    const dimStr = Object.entries(e.dims||{}).map(([k,v])=>{
-      const d = DIMENSIONS.find(x=>x.key===k);
-      return (d?d.name:k)+': '+v;
-    }).join(' · ');
-    const fb = e.feedback||{};
-    const fbLine = [fb.ease&&('Easy to understand: '+fb.ease), fb.accurate&&('Felt accurate: '+fb.accurate), fb.wouldReturn&&('Would return: '+fb.wouldReturn)].filter(Boolean).join(' · ');
-    const domainLabel = e.domainKey ? (DOMAINS.find(d=>d.key===e.domainKey)||{}).label : null;
-    const metaBits = [
-      domainLabel,
-      e.gc!=null ? ('Gut check: '+e.gc) : null,
-      e.approachStyle ? ('Style: '+(STYLE_CONTENT[e.approachStyle]||{}).label) : null,
-    ].filter(Boolean).join(' · ');
-    const dqFlags = [];
-    if(e.dq){
-      if(e.dq.straightLine) dqFlags.push('⚠ same answer every question');
-      if(e.dq.medianMsPerQ!=null && e.dq.medianMsPerQ<900) dqFlags.push('⚠ answered very fast (median '+e.dq.medianMsPerQ+'ms/question)');
-    }
-    const repeatCount = e.respondentId ? log.filter(x=>x.respondentId===e.respondentId).length : 1;
-    return '<div class="admin-row">'+
-      '<div class="admin-row-top"><span class="s">'+e.total+' · '+e.band+'</span><span class="t">'+date.toLocaleDateString()+'</span></div>'+
-      '<div class="dims">'+dimStr+'</div>'+
-      (metaBits ? '<div class="dims">'+metaBits+(repeatCount>1?' · retake #'+repeatCount:'')+'</div>' : '')+
-      (fbLine ? '<div class="dims">'+fbLine+'</div>' : '')+
-      (fb.note ? '<div class="note">“'+fb.note+'”</div>' : '')+
-      (dqFlags.length ? '<div class="note">'+dqFlags.join(' · ')+'</div>' : '')+
-    '</div>';
-  }).join('');
+/* Escape text before it goes into innerHTML. */
+function esc(v){
+  return String(v==null ? '' : v).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
-document.getElementById('adminBack').addEventListener('click', ()=>{
-  history.replaceState(null, '', location.pathname);
-  showScreen('home');
-});
+/* Analytics events (see analytics.js; a no-op until GoatCounter is set up). */
+function track(name, title){
+  try{ if(window.clarityTrack) window.clarityTrack(name, title); }catch(e){}
+}
 
 /* =========================================================
    6. THEME TOGGLE
@@ -1535,18 +1534,8 @@ function loadField(key){ try{ const f=JSON.parse(localStorage.getItem('clarityos
   }catch(e){}
 })();
 
-/* Admin routing: open this artifact with ?results=1 to see what's been shared. */
-(async function routeAdmin(){
-  try{
-    const params = new URLSearchParams(location.search);
-    if(params.get('results') === '1'){
-      const log = await fetchLog();
-      renderAdmin(log);
-      showScreen('admin');
-    }
-  }catch(e){}
-})();
 
 })();
 </script>
-
+</body>
+</html>

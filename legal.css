@@ -1,0 +1,48 @@
+/* Shared look for impressum.html and datenschutz.html. Tokens mirror the
+   :root block in index.html so the legal pages match the app in both themes. */
+:root{
+  --bg:#F3F4F7; --surface:#FFFFFF; --surface-alt:#EAECF1;
+  --ink:#1C2230; --ink-soft:#464F60; --ink-muted:#767F8F;
+  --border:#DEE1E8; --border-soft:#E9EBF0;
+  --accent:#4A5FD9; --accent-ink:#2E3FAE;
+  --shadow-sm:0 1px 3px rgba(28,34,48,.08);
+  --radius-md:16px;
+  --font-display:'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body:'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14161B; --surface:#1C1F26; --surface-alt:#242833;
+    --ink:#EDEFF4; --ink-soft:#C3C8D4; --ink-muted:#8A90A0;
+    --border:#333846; --border-soft:#2A2E39;
+    --accent:#8B98F2; --accent-ink:#AEB8F7;
+    --shadow-sm:0 1px 3px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14161B; --surface:#1C1F26; --surface-alt:#242833;
+  --ink:#EDEFF4; --ink-soft:#C3C8D4; --ink-muted:#8A90A0;
+  --border:#333846; --border-soft:#2A2E39;
+  --accent:#8B98F2; --accent-ink:#AEB8F7;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); -webkit-font-smoothing:antialiased; line-height:1.6;}
+main{max-width:640px; margin:0 auto; padding:0 20px 64px;}
+.topbar{padding:18px 0 10px;}
+.wordmark{display:inline-flex; align-items:center; gap:8px; font-family:var(--font-display); font-size:17px; font-weight:600; color:var(--ink); text-decoration:none;}
+.wordmark svg{width:16px; height:16px;}
+h1{font-family:var(--font-display); font-weight:500; font-size:34px; line-height:1.15; margin:32px 0 8px;}
+h2{font-family:var(--font-display); font-weight:500; font-size:21px; margin:32px 0 8px;}
+p, li{font-size:15px; color:var(--ink-soft);}
+p{margin:0 0 12px;}
+ul{padding-left:20px; margin:0 0 12px;}
+li{margin:3px 0;}
+.lede{font-size:16px; color:var(--ink-muted);}
+.card{background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius-md); padding:18px 20px; box-shadow:var(--shadow-sm); margin:16px 0;}
+.card p:last-child{margin-bottom:0;}
+.placeholder{background:#FFF1C2; color:#5A4500; padding:0 4px; border-radius:4px; font-weight:700;}
+a{color:var(--accent-ink);}
+a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.site-footer{margin-top:40px; padding-top:16px; border-top:1px solid var(--border-soft); display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-muted);}
+.site-footer a{color:var(--ink-muted);}
